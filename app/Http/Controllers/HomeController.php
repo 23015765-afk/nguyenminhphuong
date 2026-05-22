@@ -10,10 +10,11 @@ class HomeController extends Controller
 {
     public function index()
     {
+        // Featured: top 6 bài phổ biến nhất (1 large + 3 small cards + 5 sidebar = cần ít nhất 5)
         $featuredPosts = Post::published()
             ->with(['user', 'category'])
             ->popular()
-            ->take(3)
+            ->take(6)
             ->get();
 
         $latestPosts = Post::published()
@@ -49,10 +50,48 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
+        // 3 danh mục mới
+        $experiencePosts = Post::published()
+            ->with(['user', 'category'])
+            ->whereHas('category', function ($q) {
+                $q->where('name', 'like', '%Kinh nghiệm%');
+            })
+            ->latest()
+            ->take(3)
+            ->get();
+
+        $hotelPosts = Post::published()
+            ->with(['user', 'category'])
+            ->whereHas('category', function ($q) {
+                $q->where('name', 'like', '%Khách sạn%');
+            })
+            ->latest()
+            ->take(3)
+            ->get();
+
+        $guidePosts = Post::published()
+            ->with(['user', 'category'])
+            ->whereHas('category', function ($q) {
+                $q->where('name', 'like', '%Cẩm nang%');
+            })
+            ->latest()
+            ->take(3)
+            ->get();
+
         $categories = Category::withCount(['posts' => function ($q) {
             $q->where('status', 'published');
         }])->get();
 
-        return view('home', compact('featuredPosts', 'latestPosts', 'foodPosts', 'destinationPosts', 'checkinPosts', 'categories'));
+        return view('home', compact(
+            'featuredPosts',
+            'latestPosts',
+            'foodPosts',
+            'destinationPosts',
+            'checkinPosts',
+            'experiencePosts',
+            'hotelPosts',
+            'guidePosts',
+            'categories'
+        ));
     }
 }

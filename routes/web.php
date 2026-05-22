@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CommentController;
 
+use App\Http\Controllers\ChatbotController;
+
 /*
 |--------------------------------------------------------------------------
 | Public Routes
@@ -18,6 +20,12 @@ use App\Http\Controllers\Admin\CommentController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Chatbot API — public, rate limited trong controller
+Route::post('/chatbot', [ChatbotController::class, 'chat'])->name('chatbot.chat');
+
+// Chatbot test — chỉ chạy được ở môi trường local
+Route::get('/chatbot/test', [ChatbotController::class, 'test'])->name('chatbot.test');
 
 // Posts
 Route::get('/bai-viet', [PostController::class, 'index'])->name('posts.index');
@@ -29,6 +37,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/dang-nhap', [AuthController::class, 'login']);
     Route::get('/dang-ky', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/dang-ky', [AuthController::class, 'register']);
+
+    // Quên mật khẩu
+    Route::get('/quen-mat-khau', [AuthController::class, 'showForgotPassword'])->name('password.request');
+    Route::post('/quen-mat-khau', [AuthController::class, 'sendResetLink'])->name('password.email');
+    Route::get('/dat-lai-mat-khau/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset');
+    Route::post('/dat-lai-mat-khau', [AuthController::class, 'resetPassword'])->name('password.update');
 });
 
 Route::post('/dang-xuat', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
@@ -54,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/ho-so', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('/ho-so', [ProfileController::class, 'update'])->name('profile.update');
 });
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
