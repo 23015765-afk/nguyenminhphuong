@@ -1,184 +1,113 @@
-# 🌍 Cẩm Nang Du Lịch Việt
+# 🌍 Cẩm Nang Du Lịch (Du Lịch Việt)
 
-Website chia sẻ kinh nghiệm và cẩm nang du lịch Việt Nam, xây dựng bằng **Laravel 12**.
+**Cẩm Nang Du Lịch** là một ứng dụng web toàn diện được xây dựng bằng Laravel 12, đóng vai trò như một cẩm nang trực tuyến chia sẻ kinh nghiệm, điểm đến, ẩm thực và các địa điểm check-in hấp dẫn tại Việt Nam.
 
-🔗 **Demo trực tuyến:** [https://du-lich-viet.onrender.com](https://du-lich-viet.onrender.com)
-
----
-
-## ✨ Tính năng
-
-### 👤 Người dùng
-- Đăng ký / Đăng nhập / Quên mật khẩu
-- Xem danh sách và chi tiết bài viết
-- Tìm kiếm theo tiêu đề, nội dung, địa điểm
-- Lọc theo danh mục, sắp xếp (mới nhất / phổ biến)
-- Bình luận bài viết (chờ admin duyệt)
-- Lưu bài viết yêu thích
-- Đánh giá bài viết 1–5 sao
-- Cập nhật hồ sơ & avatar
-
-### 👑 Quản trị viên
-- Dashboard thống kê với biểu đồ Chart.js
-- Quản lý bài viết: thêm, sửa, xóa, lọc
-- Quản lý danh mục: CRUD đầy đủ
-- Quản lý người dùng: đổi role, xóa
-- Kiểm duyệt bình luận: duyệt, ẩn, xóa
+Dự án cung cấp giao diện người dùng thân thiện, hiện đại (áp dụng phong cách thiết kế Glassmorphism) cùng hệ thống quản trị (Admin Panel) mạnh mẽ giúp quản lý nội dung dễ dàng.
 
 ---
 
-## 🛠 Công nghệ
+## 🚀 Các tính năng nổi bật
 
-| Thành phần | Công nghệ |
-|---|---|
-| Backend | PHP 8.2+, Laravel 12 |
-| Database | MySQL |
-| Frontend | Bootstrap 5, Font Awesome 6, Chart.js |
-| Build tool | Vite |
-| Deploy | Render.com (Docker) |
+### 👤 Dành cho Người dùng (User)
+* **Khám phá bài viết**: Tìm kiếm và đọc các bài viết theo chuyên mục (**Ẩm thực**, **Điểm đến**, **Checkin**).
+* **Tìm kiếm & Lọc**: Công cụ tìm kiếm bài viết theo từ khóa, chuyên mục và địa điểm.
+* **Tương tác**: 
+  * Đăng nhập / Đăng ký tài khoản cá nhân.
+  * Thêm bài viết vào danh sách **Yêu thích**.
+  * **Bình luận** chia sẻ cảm nghĩ (Bình luận sẽ được Admin duyệt trước khi hiển thị).
+  * **Đánh giá** (Rating) bài viết.
+* **Quản lý Hồ sơ**: Cập nhật thông tin cá nhân và ảnh đại diện.
+
+### 👑 Dành cho Quản trị viên (Admin)
+* **Bảng điều khiển (Dashboard)**: Thống kê tổng quan với các biểu đồ trực quan (Bài viết theo tháng, Lượt xem theo danh mục).
+* **Quản lý Bài viết**: Thêm, sửa, xóa, duyệt và quản lý trạng thái bài viết (Đã đăng / Nháp).
+* **Quản lý Danh mục**: Tạo và chỉnh sửa các danh mục du lịch.
+* **Quản lý Bình luận**: Hệ thống kiểm duyệt bình luận (Duyệt, Ẩn, Xóa).
+* **Quản lý Người dùng**: Xem danh sách thành viên, cấp quyền Admin hoặc xóa tài khoản.
 
 ---
 
-## ⚙️ Cài đặt Local (XAMPP)
+## 🛠 Công nghệ sử dụng
+* **Backend:** PHP 8.x, [Laravel 12](https://laravel.com/)
+* **Database:** MySQL
+* **Frontend:** Blade Templates, HTML5, Vanilla CSS, Bootstrap 5
+* **Biểu đồ & Thống kê:** Chart.js
+* **Icons:** FontAwesome 6
 
+---
+
+## ⚙️ Hướng dẫn cài đặt
+
+Để chạy dự án này trên môi trường local của bạn, vui lòng làm theo các bước sau:
+
+**1. Clone dự án về máy**
 ```bash
-# 1. Clone dự án
-git clone https://github.com/your-username/du-lich.git
+git clone https://github.com/dom587316/du-lich.git
 cd du-lich
+```
 
-# 2. Cài PHP dependencies
+**2. Cài đặt các thư viện (Dependencies)**
+```bash
 composer install
+```
 
-# 3. Cấu hình môi trường
+**3. Cấu hình biến môi trường**
+Sao chép file cấu hình mẫu và điền thông tin database của bạn:
+```bash
 cp .env.example .env
-# Mở .env, sửa thông tin database MySQL
+```
+Mở file `.env` và cập nhật thông tin kết nối MySQL:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=du_lich_db
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-# 4. Tạo APP_KEY
+**4. Tạo APP_KEY**
+```bash
 php artisan key:generate
+```
 
-# 5. Tạo database và chạy migration + seed
+**5. Chạy Migration và Seeder (Tạo dữ liệu mẫu)**
+```bash
 php artisan migrate:fresh --seed
+```
+*Lưu ý: Lệnh này sẽ tạo sẵn một số danh mục, bài viết mẫu và tài khoản quản trị.*
 
-# 6. Tạo symlink storage
+**6. Liên kết thư mục Storage (để hiển thị hình ảnh)**
+```bash
 php artisan storage:link
+```
 
-# 7. Build frontend
-npm install && npm run build
-
-# 8. Chạy server
+**7. Chạy Server cục bộ**
+```bash
 php artisan serve
 ```
-
-Truy cập: `http://localhost:8000`
-
----
-
-## 🔐 Tài khoản mặc định (sau khi seed)
-
-| Vai trò | Email | Mật khẩu |
-|---|---|---|
-| Admin | admin@dulich.com | password |
-| User | user1@dulich.com | password |
+Truy cập trang web tại: `http://localhost:8000`
 
 ---
 
-## 🚀 Deploy lên Render.com (Miễn phí)
+## 🔐 Tài khoản mặc định (Seeder)
 
-### Bước 1 — Tạo MySQL miễn phí trên Aiven.io
+Sau khi chạy lệnh `seed`, bạn có thể sử dụng các tài khoản sau để đăng nhập:
 
-1. Truy cập [aiven.io](https://aiven.io) → **Sign up** (miễn phí)
-2. Chọn **Create Service → MySQL**
-3. Chọn plan **Free** → chọn region gần nhất → **Create Service**
-4. Sau khi tạo xong, vào tab **Overview** lưu lại:
-   - `Host` (ví dụ: `mysql-xxx.aivencloud.com`)
-   - `Port` (thường là `3306` hoặc `28774`)
-   - `Database` (mặc định: `defaultdb`)
-   - `Username` (mặc định: `avnadmin`)
-   - `Password`
+* **Tài khoản Admin:**
+  * Email: `admin@dulich.com`
+  * Mật khẩu: `password`
 
-### Bước 2 — Push code lên GitHub
-
-```bash
-# Trong thư mục dự án
-git add .
-git commit -m "feat: ready for production deploy"
-git push origin main
-```
-
-> Nếu chưa có remote: `git remote add origin https://github.com/your-username/du-lich.git`
-
-### Bước 3 — Tạo Web Service trên Render
-
-1. Truy cập [render.com](https://render.com) → **Sign up** (dùng GitHub account)
-2. Click **New +** → **Web Service**
-3. Chọn **Connect a repository** → chọn repo `du-lich`
-4. Cấu hình:
-
-| Trường | Giá trị |
-|---|---|
-| **Name** | `du-lich-viet` |
-| **Region** | Singapore (gần VN nhất) |
-| **Branch** | `main` |
-| **Runtime** | **Docker** |
-| **Plan** | Free |
-
-5. Click **Create Web Service**
-
-### Bước 4 — Cấu hình Environment Variables
-
-Sau khi tạo service, vào tab **Environment** → **Add Environment Variable**, thêm lần lượt:
-
-| Key | Value |
-|---|---|
-| `APP_NAME` | `Du Lich Viet` |
-| `APP_ENV` | `production` |
-| `APP_DEBUG` | `false` |
-| `APP_KEY` | *(chạy `php artisan key:generate --show` ở local, copy kết quả)* |
-| `APP_URL` | `https://du-lich-viet.onrender.com` *(URL Render cấp)* |
-| `DB_CONNECTION` | `mysql` |
-| `DB_HOST` | *(host từ Aiven)* |
-| `DB_PORT` | *(port từ Aiven, thường 28774)* |
-| `DB_DATABASE` | `defaultdb` |
-| `DB_USERNAME` | `avnadmin` |
-| `DB_PASSWORD` | *(password từ Aiven)* |
-| `SESSION_DRIVER` | `file` |
-| `CACHE_STORE` | `file` |
-| `QUEUE_CONNECTION` | `sync` |
-| `FILESYSTEM_DISK` | `public` |
-| `LOG_CHANNEL` | `stderr` |
-| `LOG_LEVEL` | `error` |
-| `MAIL_MAILER` | `log` |
-
-6. Click **Save Changes** → Render sẽ tự động redeploy
-
-### Bước 5 — Chạy Seeder (tạo dữ liệu mẫu)
-
-Sau khi deploy thành công, vào tab **Shell** của Render service:
-
-```bash
-php artisan db:seed --force
-```
-
-### Bước 6 — Truy cập website
-
-URL có dạng: `https://du-lich-viet.onrender.com`
-
-> **Lưu ý:** Render free tier sẽ ngủ sau 15 phút không có request. Lần đầu truy cập sau khi ngủ mất ~30 giây để khởi động lại.
+* **Tài khoản User (Người dùng bình thường):**
+  * Email: `user1@dulich.com` (có thể dùng từ user1 đến user5)
+  * Mật khẩu: `password`
 
 ---
 
-## 📁 Cấu trúc thư mục
+## 📸 Giao diện tham khảo
 
-```
-du-lich/
-├── app/Http/Controllers/     # Controllers (Admin + Frontend)
-├── app/Models/               # Eloquent Models
-├── database/migrations/      # Database schema
-├── database/seeders/         # Dữ liệu mẫu
-├── resources/views/          # Blade templates
-├── routes/web.php            # Routes
-├── Dockerfile                # Docker image cho Render
-├── docker-entrypoint.sh      # Script khởi động container
-├── render.yaml               # Cấu hình Render.com
-└── .env.production.example   # Template biến môi trường production
-```
+* Giao diện trang chủ được thiết kế theo phong cách Glassmorphism sáng sủa, đẹp mắt.
+* Trang quản trị (Admin Panel) sử dụng thiết kế Light-mode thân thiện, trực quan với Sidebar điều hướng và các biểu đồ thống kê sinh động.
+
+---
+*Dự án được xây dựng và phát triển nhằm mục đích cung cấp thông tin du lịch hữu ích và nền tảng giao lưu cho cộng đồng yêu thích khám phá Việt Nam.*
