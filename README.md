@@ -1,113 +1,191 @@
-# 🌍 Cẩm Nang Du Lịch (Du Lịch Việt)
+# 🌍 Cẩm Nang Du Lịch Việt
 
-**Cẩm Nang Du Lịch** là một ứng dụng web toàn diện được xây dựng bằng Laravel 12, đóng vai trò như một cẩm nang trực tuyến chia sẻ kinh nghiệm, điểm đến, ẩm thực và các địa điểm check-in hấp dẫn tại Việt Nam.
+Website chia sẻ kinh nghiệm và cẩm nang du lịch Việt Nam, xây dựng bằng **Laravel 12**.
 
-Dự án cung cấp giao diện người dùng thân thiện, hiện đại (áp dụng phong cách thiết kế Glassmorphism) cùng hệ thống quản trị (Admin Panel) mạnh mẽ giúp quản lý nội dung dễ dàng.
-
----
-
-## 🚀 Các tính năng nổi bật
-
-### 👤 Dành cho Người dùng (User)
-* **Khám phá bài viết**: Tìm kiếm và đọc các bài viết theo chuyên mục (**Ẩm thực**, **Điểm đến**, **Checkin**).
-* **Tìm kiếm & Lọc**: Công cụ tìm kiếm bài viết theo từ khóa, chuyên mục và địa điểm.
-* **Tương tác**: 
-  * Đăng nhập / Đăng ký tài khoản cá nhân.
-  * Thêm bài viết vào danh sách **Yêu thích**.
-  * **Bình luận** chia sẻ cảm nghĩ (Bình luận sẽ được Admin duyệt trước khi hiển thị).
-  * **Đánh giá** (Rating) bài viết.
-* **Quản lý Hồ sơ**: Cập nhật thông tin cá nhân và ảnh đại diện.
-
-### 👑 Dành cho Quản trị viên (Admin)
-* **Bảng điều khiển (Dashboard)**: Thống kê tổng quan với các biểu đồ trực quan (Bài viết theo tháng, Lượt xem theo danh mục).
-* **Quản lý Bài viết**: Thêm, sửa, xóa, duyệt và quản lý trạng thái bài viết (Đã đăng / Nháp).
-* **Quản lý Danh mục**: Tạo và chỉnh sửa các danh mục du lịch.
-* **Quản lý Bình luận**: Hệ thống kiểm duyệt bình luận (Duyệt, Ẩn, Xóa).
-* **Quản lý Người dùng**: Xem danh sách thành viên, cấp quyền Admin hoặc xóa tài khoản.
+🔗 **Demo trực tuyến:** [https://du-lich-viet.onrender.com](https://du-lich-viet.onrender.com) *(cập nhật sau khi deploy)*
 
 ---
 
-## 🛠 Công nghệ sử dụng
-* **Backend:** PHP 8.x, [Laravel 12](https://laravel.com/)
-* **Database:** MySQL
-* **Frontend:** Blade Templates, HTML5, Vanilla CSS, Bootstrap 5
-* **Biểu đồ & Thống kê:** Chart.js
-* **Icons:** FontAwesome 6
+## ✨ Tính năng
+
+### 👤 Người dùng
+- Đăng ký / Đăng nhập / Quên mật khẩu
+- Xem danh sách và chi tiết bài viết
+- Tìm kiếm theo tiêu đề, nội dung, địa điểm
+- Lọc theo danh mục, sắp xếp (mới nhất / phổ biến)
+- Bình luận bài viết (chờ admin duyệt)
+- Lưu bài viết yêu thích
+- Đánh giá bài viết (1–5 sao)
+- Cập nhật hồ sơ cá nhân & avatar
+
+### 👑 Quản trị viên
+- Dashboard thống kê với biểu đồ Chart.js
+- Quản lý bài viết: thêm, sửa, xóa, lọc
+- Quản lý danh mục: CRUD đầy đủ
+- Quản lý người dùng: đổi role, xóa
+- Kiểm duyệt bình luận: duyệt, ẩn, xóa
 
 ---
 
-## ⚙️ Hướng dẫn cài đặt
+## 🛠 Công nghệ
 
-Để chạy dự án này trên môi trường local của bạn, vui lòng làm theo các bước sau:
+| Thành phần | Công nghệ |
+|---|---|
+| Backend | PHP 8.2+, Laravel 12 |
+| Database | MySQL |
+| Frontend | Bootstrap 5, Font Awesome 6, Chart.js |
+| Build tool | Vite |
+| Deploy | Render.com |
 
-**1. Clone dự án về máy**
+---
+
+## ⚙️ Cài đặt Local (XAMPP)
+
 ```bash
-git clone https://github.com/dom587316/du-lich.git
+# 1. Clone dự án
+git clone https://github.com/your-username/du-lich.git
 cd du-lich
-```
 
-**2. Cài đặt các thư viện (Dependencies)**
-```bash
+# 2. Cài PHP dependencies
 composer install
+
+# 3. Cấu hình môi trường
+cp .env.example .env
+# Mở .env, sửa thông tin database:
+# DB_DATABASE=du_lich_db
+# DB_USERNAME=root
+# DB_PASSWORD=
+
+# 4. Tạo APP_KEY
+php artisan key:generate
+
+# 5. Tạo database và chạy migration + seed
+php artisan migrate:fresh --seed
+
+# 6. Tạo symlink storage (hiển thị ảnh upload)
+php artisan storage:link
+
+# 7. Build frontend
+npm install && npm run build
+
+# 8. Chạy server
+php artisan serve
 ```
 
-**3. Cấu hình biến môi trường**
-Sao chép file cấu hình mẫu và điền thông tin database của bạn:
+Truy cập: `http://localhost:8000`
+
+---
+
+## 🔐 Tài khoản mặc định (sau khi seed)
+
+| Vai trò | Email | Mật khẩu |
+|---|---|---|
+| Admin | admin@dulich.com | password |
+| User | user1@dulich.com | password |
+| User | user2@dulich.com | password |
+
+---
+
+## 🚀 Deploy lên Render.com (Miễn phí)
+
+### Bước 1 — Chuẩn bị database MySQL miễn phí
+
+Dùng **[Aiven.io](https://aiven.io)** hoặc **[Railway.app](https://railway.app)** để tạo MySQL miễn phí:
+
+1. Đăng ký tài khoản tại [Aiven.io](https://aiven.io)
+2. Tạo service **MySQL** (free tier)
+3. Lưu lại: `Host`, `Port`, `Database`, `Username`, `Password`
+
+### Bước 2 — Push code lên GitHub
+
 ```bash
-cp .env.example .env
+git add .
+git commit -m "Ready for deploy"
+git push origin main
 ```
-Mở file `.env` và cập nhật thông tin kết nối MySQL:
-```env
+
+### Bước 3 — Tạo Web Service trên Render
+
+1. Đăng ký tại [render.com](https://render.com)
+2. Chọn **New → Web Service**
+3. Kết nối GitHub repo của bạn
+4. Cấu hình:
+
+| Trường | Giá trị |
+|---|---|
+| **Runtime** | PHP |
+| **Build Command** | `composer install --no-dev --optimize-autoloader && npm ci && npm run build && php artisan config:cache && php artisan route:cache && php artisan view:cache` |
+| **Start Command** | `php artisan serve --host=0.0.0.0 --port=$PORT` |
+| **Plan** | Free |
+
+### Bước 4 — Cấu hình Environment Variables trên Render
+
+Vào tab **Environment** của service, thêm các biến sau:
+
+```
+APP_NAME=Du Lich Viet
+APP_ENV=production
+APP_DEBUG=false
+APP_KEY=                    ← Chạy: php artisan key:generate --show
+APP_URL=https://your-app.onrender.com
+
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
+DB_HOST=your-aiven-host
 DB_PORT=3306
 DB_DATABASE=du_lich_db
-DB_USERNAME=root
-DB_PASSWORD=
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+
+SESSION_DRIVER=file
+CACHE_STORE=file
+QUEUE_CONNECTION=sync
+FILESYSTEM_DISK=public
+LOG_CHANNEL=stderr
+LOG_LEVEL=error
 ```
 
-**4. Tạo APP_KEY**
-```bash
-php artisan key:generate
-```
+### Bước 5 — Chạy Migration trên Render
 
-**5. Chạy Migration và Seeder (Tạo dữ liệu mẫu)**
-```bash
-php artisan migrate:fresh --seed
-```
-*Lưu ý: Lệnh này sẽ tạo sẵn một số danh mục, bài viết mẫu và tài khoản quản trị.*
+Sau khi deploy xong, vào **Shell** của Render service và chạy:
 
-**6. Liên kết thư mục Storage (để hiển thị hình ảnh)**
 ```bash
+php artisan migrate --force
+php artisan db:seed --force
 php artisan storage:link
 ```
 
-**7. Chạy Server cục bộ**
-```bash
-php artisan serve
+### Bước 6 — Truy cập website
+
+URL sẽ có dạng: `https://du-lich-viet.onrender.com`
+
+---
+
+## 📁 Cấu trúc thư mục chính
+
 ```
-Truy cập trang web tại: `http://localhost:8000`
+du-lich/
+├── app/
+│   ├── Http/Controllers/       # Controllers (Admin + Frontend)
+│   ├── Models/                 # Eloquent Models
+│   └── Http/Middleware/        # AdminMiddleware
+├── database/
+│   ├── migrations/             # Database schema
+│   └── seeders/                # Dữ liệu mẫu
+├── resources/views/            # Blade templates
+│   ├── layouts/                # app.blade.php, admin.blade.php
+│   ├── admin/                  # Giao diện admin
+│   ├── posts/                  # Trang bài viết
+│   └── auth/                   # Đăng nhập, đăng ký
+├── routes/web.php              # Định nghĩa routes
+├── render.yaml                 # Cấu hình Render.com
+├── deploy.sh                   # Script deploy tự động
+└── .env.production.example     # Template biến môi trường production
+```
 
 ---
 
-## 🔐 Tài khoản mặc định (Seeder)
+## 📝 Ghi chú
 
-Sau khi chạy lệnh `seed`, bạn có thể sử dụng các tài khoản sau để đăng nhập:
-
-* **Tài khoản Admin:**
-  * Email: `admin@dulich.com`
-  * Mật khẩu: `password`
-
-* **Tài khoản User (Người dùng bình thường):**
-  * Email: `user1@dulich.com` (có thể dùng từ user1 đến user5)
-  * Mật khẩu: `password`
-
----
-
-## 📸 Giao diện tham khảo
-
-* Giao diện trang chủ được thiết kế theo phong cách Glassmorphism sáng sủa, đẹp mắt.
-* Trang quản trị (Admin Panel) sử dụng thiết kế Light-mode thân thiện, trực quan với Sidebar điều hướng và các biểu đồ thống kê sinh động.
-
----
-*Dự án được xây dựng và phát triển nhằm mục đích cung cấp thông tin du lịch hữu ích và nền tảng giao lưu cho cộng đồng yêu thích khám phá Việt Nam.*
+- Ảnh upload được lưu trong `storage/app/public/` — cần chạy `php artisan storage:link` sau deploy
+- Trên Render free tier, server sẽ ngủ sau 15 phút không có request (spin-up ~30 giây)
+- Để reset password hoạt động trên production, cần cấu hình SMTP thật (Mailtrap, Gmail, v.v.)
