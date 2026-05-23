@@ -59,29 +59,33 @@ RUN echo '<Directory /var/www/html/public>\n\
 
 WORKDIR /var/www/html
 
-# Copy toàn bộ source code
+# Copy toàn bộ source code của dự án vào trong Docker
 COPY . .
 
-# Copy frontend build từ stage 1
+# Copy frontend đã được build thành công từ stage 1 sang
 COPY --from=frontend /app/public/build ./public/build
 
-# Cài PHP dependencies (không có dev packages)
+# VỊ TRÍ ĐÃ SỬA: Tự động copy file cấu hình mẫu tạo thành file .env vật lý
+RUN cp .env.example .env
+
+# Cài PHP dependencies (không bao gồm các package phục vụ môi trường dev)
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
-# Tạo thư mục storage và set permissions
+# Tạo các thư mục lưu trữ cache hệ thống của Laravel và phân quyền truy cập
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     && mkdir -p storage/logs \
     && mkdir -p bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
-# Tạo symlink storage -> public/storage
+# Tạo liên kết lối tắt từ thư mục lưu trữ hệ thống sang thư mục public công khai
 RUN php artisan storage:link || true
 
-# Script khởi động
+# Thiết lập tập lệnh khởi động trung gian (Entrypoint Script)
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
+# Khai báo cổng kết nối 80 để hệ thống Render quét tín hiệu dịch vụ ổn định
 EXPOSE 80
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
