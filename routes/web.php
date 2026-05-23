@@ -24,9 +24,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Chatbot API — public, rate limited trong controller
 Route::post('/chatbot', [ChatbotController::class, 'chat'])->name('chatbot.chat');
 
-// Chatbot test — chỉ chạy được ở môi trường local
-Route::get('/chatbot/test', [ChatbotController::class, 'test'])->name('chatbot.test');
-
 // Posts
 Route::get('/bai-viet', [PostController::class, 'index'])->name('posts.index');
 Route::get('/bai-viet/{post:slug}', [PostController::class, 'show'])->name('posts.show');
