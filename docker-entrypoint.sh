@@ -17,17 +17,27 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-# Chạy database migrations
-echo ">> Running database migrations..."
-php artisan migrate --force
+# Chạy migrate fresh + seed để đồng nhất dữ liệu với localhost
+# FRESH_SEED=true  → reset toàn bộ và seed lại (dùng khi deploy lần đầu hoặc muốn reset)
+# FRESH_SEED=false → chỉ migrate thêm, không xóa dữ liệu cũ
+echo ">> Checking database sync mode..."
 
-# Chỉ seed nếu bảng users chưa có dữ liệu (tránh xóa data mỗi lần restart)
-USER_COUNT=$(php artisan tinker --execute="echo App\Models\User::count();" 2>/dev/null | tail -1 | tr -d '[:space:]')
-if [ "$USER_COUNT" = "0" ] || [ -z "$USER_COUNT" ]; then
-    echo ">> Seeding database (first run)..."
-    php artisan db:seed --force
+if [ "${FRESH_SEED}" = "true" ]; then
+    echo ">> FRESH_SEED=true: Running migrate:fresh --seed..."
+    php artisan migrate:fresh --seed --force
+    echo ">> Database reset and seeded successfully!"
 else
-    echo ">> Database already has data (users: $USER_COUNT), skipping seed."
+    echo ">> Running migrations only (set FRESH_SEED=true to reset data)..."
+    php artisan migrate --force
+
+    # Seed nếu bảng users chưa có dữ liệu
+    USER_COUNT=$(php artisan tinker --execute="echo App\Models\User::count();" 2>/dev/null | grep -E '^[0-9]+$' | tail -1)
+    if [ -z "$USER_COUNT" ] || [ "$USER_COUNT" = "0" ]; then
+        echo ">> Empty database detected, seeding..."
+        php artisan db:seed --force
+    else
+        echo ">> Database has data (users: $USER_COUNT), skipping seed."
+    fi
 fi
 
 # Tạo storage symlink
